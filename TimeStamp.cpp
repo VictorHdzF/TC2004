@@ -6,7 +6,7 @@ using namespace std;
 
 void main()
 {
-	time_t timeNow;
+	static time_t timeNow;
 
 	time(&timeNow);
 
