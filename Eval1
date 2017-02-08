@@ -1,0 +1,235 @@
+// Victor Hernandez Ferzuli	A01022166
+#include <iostream>
+#include <string>
+#include<vector>
+
+using namespace std;
+
+class Videojuego
+{
+public:
+	virtual Videojuego* clonar() = 0;
+
+	virtual void concepcion() = 0;
+	virtual void diseño() = 0;
+	virtual void planificacion() = 0;
+	virtual void produccion() = 0;
+	virtual void pruebasDeAceptacion() = 0;
+};
+
+template <class SubClase>
+class ClonVideojuego : public Videojuego
+{
+public:
+	virtual Videojuego* clonar()
+	{
+		return new SubClase(dynamic_cast<SubClase&>(*this));
+	}
+};
+
+class Estrategia : public ClonVideojuego<Estrategia>
+{
+public:
+	string Nombre;
+	int NumeroDeSerie;
+	int Precio;
+	int Puntuacion;
+	int Vidas;
+
+	void concepcion()
+	{
+		cout << "Concepcionando el videojuego de estrategia" << endl;
+	}
+	void diseño()
+	{
+		cout << "Diseñando el videojuego de estrategia" << endl;
+	}
+	void planificacion()
+	{
+		cout << "Planificando el videojuego de estrategia" << endl;
+	}
+	void produccion()
+	{
+		cout << "Produciendo el videojuego de estrategia" << endl;
+	}
+	void pruebasDeAceptacion()
+	{
+		cout << "Probando el videojuego de estrategia" << endl;
+	}
+	
+};
+
+class Aventura : public ClonVideojuego<Aventura>
+{
+public:
+	string Nombre;
+	int NumeroDeSerie;
+	int Precio;
+	int Puntuacion;
+	int Vidas;
+
+	void concepcion()
+	{
+		cout << "Concepcionando el videojuego de aventura" << endl;
+	}
+	void diseño()
+	{
+		cout << "Diseñando el videojuego de aventura" << endl;
+	}
+	void planificacion()
+	{
+		cout << "Planificando el videojuego de aventura" << endl;
+	}
+	void produccion()
+	{
+		cout << "Produciendo el videojuego de aventura" << endl;
+	}
+	void pruebasDeAceptacion()
+	{
+		cout << "Probando el videojuego de aventura" << endl;
+	}
+
+};
+
+class Aprendizaje : public ClonVideojuego<Aprendizaje>
+{
+public:
+	string Nombre;
+	int NumeroDeSerie;
+	int Precio;
+	int Puntuacion;
+	int Vidas;
+
+	void concepcion()
+	{
+		cout << "Concepcionando el videojuego de aprendizaje" << endl;
+	}
+	void diseño()
+	{
+		cout << "Diseñando el videojuego de estrategia" << endl;
+	}
+	void planificacion()
+	{
+		cout << "Planificando el videojuego de estrategia" << endl;
+	}
+	void produccion()
+	{
+		cout << "Produciendo el videojuego de estrategia" << endl;
+	}
+	void pruebasDeAceptacion()
+	{
+		cout << "Probando el videojuego de estrategia" << endl;
+	}
+
+};
+
+class FactoryVideojuegos
+{
+public:
+	template<class T>
+	static T* crearVideojuego()
+	{
+		T* productoFinal = new T;
+
+		productoFinal->Nombre;
+		productoFinal->NumeroDeSerie;
+		productoFinal->Precio;
+
+		productoFinal->concepcion();
+		productoFinal->diseño();
+		productoFinal->planificacion();
+		productoFinal->produccion();
+		productoFinal->pruebasDeAceptacion();
+		return productoFinal;
+	}
+};
+
+template <class SubClase>
+class Almacen : public Videojuego
+{
+private:
+	static Almacen<Videojuego> *inst;
+
+public:
+	Almacen()
+	{
+
+	}
+
+	static Almacen<Videojuego> *instance();
+
+	vector<Videojuego> *inventario;
+
+	void crearInventario()
+	{
+		inventario = new vector<Videojuego>;
+	}
+
+	void agregarVideojuego(Videojuego* producto)
+	{
+		inventario->push_back(producto);
+	}
+	virtual void eliminarVideojuego()
+	{
+		inventario->pop_back();
+	}
+	virtual void undo()
+	{
+		
+	}
+	virtual void ordenarVideojuegos()
+	{
+
+	}
+	virtual void buscarVideojuegos(string nombre)
+	{
+
+	}
+	virtual void buscarVideojuegos(int num)
+	{
+
+	}
+	virtual void total()
+	{
+		inventario->size();
+	}
+	virtual void imprimir()
+	{
+		for (int i = 0; i < inventario->size(); i++)
+		{
+			//cout << inventario[i] << endl;
+		}
+	}
+};
+
+/*template <class SubClase>
+Almacen *Almacen<Videojuego>::inst = NULL;
+
+template <class SubClase>
+Almacen *Almacen<Videojuego>::instance()
+{
+	if (!inst)
+		inst = new Almacen();
+
+	return inst;
+}*/
+
+int main()
+{
+	Estrategia* StreetLucha = FactoryVideojuegos::crearVideojuego<Estrategia>();
+	StreetLucha->Nombre = "Street Lucha";
+	StreetLucha->NumeroDeSerie = 123;
+	StreetLucha->Precio = 500;
+
+	StreetLucha->clonar();
+	Videojuego* clonStreet = StreetLucha->clonar();
+
+	//Almacen<Estrategia>::instance()->crearInventario();
+
+	Almacen<Estrategia> *A;
+	A->crearInventario();
+	A->agregarVideojuego(StreetLucha);
+	A->imprimir();
+
+	return 1;
+}
