@@ -51,10 +51,12 @@ protected:
 
 public:
 	Subject *subject;
+	string name;
 
-	Observer(Subject *sub) 
+	Observer(string _name, Subject *sub) 
 	{
 		subject = sub;
+		name = _name;
 		subject->attach(this);
 	}
 
@@ -62,7 +64,7 @@ public:
 	{
 		string content = getSubject()->getVal();
 		string who = getSubject()->getSubName();
-		cout << who << " said this: " << content << '\n';
+		cout << name << " -> " << who << " said this: " << content << '\n';
 	}
 };
 
@@ -73,14 +75,13 @@ void Subject::notify()
 		views[i]->update();
 }
 
-
 int main()
 {
 	Subject Presidente;
 	
-	Observer Reforma(&Presidente);
-	Observer Televisa(&Presidente);
-	Observer NBC(&Presidente);
+	Observer Reforma("Reforma", &Presidente);
+	Observer Televisa("Televisa", &Presidente);
+	Observer NBC("NBC News", &Presidente);
 
 	Presidente.setSubName("Donald Trump");
 	Presidente.setVal("Tremendous!");
